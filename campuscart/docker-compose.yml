@@ -1,0 +1,14 @@
+# Optional: starts PostgreSQL only. Run the backend and frontend from your IDE or terminal.
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: campuscart
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - campuscart-data:/var/lib/postgresql/data
+volumes:
+  campuscart-data:
