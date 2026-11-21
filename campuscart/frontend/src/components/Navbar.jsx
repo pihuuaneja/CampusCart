@@ -1,9 +1,18 @@
+import { useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth.jsx'
 
 export default function Navbar() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+  const [theme, setTheme] = useState(() => document.documentElement.dataset.theme)
+
+  function toggleTheme() {
+    const next = theme === 'dark' ? 'light' : 'dark'
+    document.documentElement.dataset.theme = next
+    setTheme(next)
+    try { localStorage.setItem('campuscart-theme', next) } catch {}
+  }
 
   return (
     <header className="nav">
@@ -19,6 +28,10 @@ export default function Navbar() {
           {user && <NavLink to="/my-listings">My listings</NavLink>}
         </nav>
         <div className="nav-actions">
+          <button type="button" className="btn theme-toggle" onClick={toggleTheme}>
+            <span aria-hidden="true">{theme === 'dark' ? '☀' : '☾'}</span>
+            <span>{theme === 'dark' ? 'Light mode' : 'Dark mode'}</span>
+          </button>
           {user ? (
             <>
               <Link to="/sell" className="btn btn-accent">Post an item</Link>
